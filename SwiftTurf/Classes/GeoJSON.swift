@@ -93,7 +93,7 @@ public class Polygon: Feature {
 	public required init() {}
 
 	public required init?(coordinates: CoordinateRepresentationType) {
-		guard let linearRings = coordinates.map({ $0.flatMap(CLLocationCoordinate2D.init) }) as? GeometryType else { return nil }
+		guard let linearRings = coordinates.map({ $0.flatMap(CLLocationCoordinate2D.init) }) as GeometryType? else { return nil }
 		for linearRing in linearRings {
 			guard linearRing.first == linearRing.last else { return nil }
 		}
