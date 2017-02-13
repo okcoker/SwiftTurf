@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public typealias GeoJSONDictionary = [NSObject: AnyObject]
+public typealias GeoJSONDictionary = [AnyHashable: Any]
 
 public protocol GeoJSONConvertible {
 	init?(dictionary: GeoJSONDictionary)
@@ -39,17 +39,17 @@ public protocol Feature: GeoJSONConvertible, CoordinateConvertible, GeometryConv
 
 extension Feature {
 	public init?(dictionary: GeoJSONDictionary) {
-		guard let coordinates = dictionary["geometry"]?["coordinates"] as? CoordinateRepresentationType else { return nil }
+		guard let coordinates = (dictionary["geometry"] as? [AnyHashable: Any])?["coordinates"] as? CoordinateRepresentationType else { return nil }
 		self.init(coordinates: coordinates)
 	}
 }
 
-public class Point: Feature {
+open class Point: Feature {
 	
 	public typealias GeometryType = CLLocationCoordinate2D!
 	public typealias CoordinateRepresentationType = [Double]
 	
-	public var geometry: CLLocationCoordinate2D!
+	open var geometry: CLLocationCoordinate2D!
 	
 	public required init() {}
 	
@@ -58,17 +58,17 @@ public class Point: Feature {
 		geometry = position
 	}
 	
-	public func coordinateRepresentation() -> CoordinateRepresentationType {
+	open func coordinateRepresentation() -> CoordinateRepresentationType {
 		return geometry.geoJSONRepresentation
 	}
 }
 
-public class LineString: Feature {
+open class LineString: Feature {
 	
 	public typealias GeometryType = [CLLocationCoordinate2D]!
 	public typealias CoordinateRepresentationType = [[Double]]
 	
-	public var geometry: [CLLocationCoordinate2D]!
+	open var geometry: [CLLocationCoordinate2D]!
 
 	public required init() {}
 
@@ -78,17 +78,17 @@ public class LineString: Feature {
 		geometry = positions
 	}
 	
-	public func coordinateRepresentation() -> CoordinateRepresentationType {
+	open func coordinateRepresentation() -> CoordinateRepresentationType {
 		return geometry.map { $0.geoJSONRepresentation }
 	}
 }
 
-public class Polygon: Feature {
+open class Polygon: Feature {
 	
 	public typealias GeometryType = [[CLLocationCoordinate2D]]!
 	public typealias CoordinateRepresentationType = [[[Double]]]
 	
-	public var geometry: [[CLLocationCoordinate2D]]!
+	open var geometry: [[CLLocationCoordinate2D]]!
 
 	public required init() {}
 
@@ -100,7 +100,7 @@ public class Polygon: Feature {
 		self.geometry = linearRings
 	}
 	
-	public func coordinateRepresentation() -> CoordinateRepresentationType {
+	open func coordinateRepresentation() -> CoordinateRepresentationType {
 		return geometry.map { $0.map { $0.geoJSONRepresentation } }
 	}
 }
@@ -111,14 +111,14 @@ public typealias MultiLineString = Multi<LineString>
 
 public typealias MultiPolygon = Multi<Polygon>
 
-public class Multi<FeatureType: Feature> {
+open class Multi<FeatureType: Feature> {
 	
-	public var features = [FeatureType]()
+	open var features = [FeatureType]()
 	
 	public typealias GeometryType = [FeatureType.GeometryType]
 	public typealias CoordinateRepresentationType = [FeatureType.CoordinateRepresentationType]
 	
-	public var geometry: GeometryType!
+	open var geometry: GeometryType!
 	
 	public required init() {}
 	
@@ -130,15 +130,15 @@ public class Multi<FeatureType: Feature> {
 		self.geometry = features.map { $0.geometry }
 	}
 	
-	public var coordinateRepresentation: CoordinateRepresentationType {
+	open var coordinateRepresentation: CoordinateRepresentationType {
 		return features.map { $0.coordinateRepresentation() }
 	}
 	
 }
 
-public class FeatureCollection: GeoJSONConvertible {
+open class FeatureCollection: GeoJSONConvertible {
 	
-	public var features: [GeoJSONConvertible]
+	open var features: [GeoJSONConvertible]
 	
 	public required init(features: [GeoJSONConvertible]) {
 		self.features = features
@@ -150,11 +150,11 @@ public class FeatureCollection: GeoJSONConvertible {
 
 		self.features = geoJSONfeatures?
 			.flatMap { feature in
-				let type = feature["geometry"]?["type"] as! String
+				let type = (feature["geometry"] as? [AnyHashable: Any])?["type"] as! String
 				switch type {
-				case String(Point):       return Point(dictionary: feature)
-				case String(Polygon):     return Polygon(dictionary: feature)
-				case String(LineString):  return LineString(dictionary: feature)
+				case "Point":       return Point(dictionary: feature)
+				case "Polygon":     return Polygon(dictionary: feature)
+				case "LineString":  return LineString(dictionary: feature)
 				default:
 					print("GeoJSON type", type, "not implemented!")
 					return nil
@@ -162,7 +162,7 @@ public class FeatureCollection: GeoJSONConvertible {
 		} ?? []
 	}
 	
-	public func geoJSONRepresentation() -> GeoJSONDictionary {
+	open func geoJSONRepresentation() -> GeoJSONDictionary {
 		return [
 			"type": "FeatureCollection",
 			"features": features.map { $0.geoJSONRepresentation() },
@@ -177,8 +177,8 @@ extension Feature {
 		return [
 			"type": "Feature",
 			"geometry": [
-				"type": String(self.dynamicType),
-				"coordinates": coordinateRepresentation() as! AnyObject,
+				"type": String(describing: type(of: self)),
+				"coordinates": coordinateRepresentation() as AnyObject,
 				"properties": NSNull()
 			],
 			"properties": NSNull()

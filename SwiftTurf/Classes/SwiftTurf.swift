@@ -8,7 +8,7 @@
 
 import JavaScriptCore
 
-public class SwiftTurf {
+final public class SwiftTurf {
 
 	private static let sharedInstance = SwiftTurf()
 	
@@ -22,16 +22,16 @@ public class SwiftTurf {
 		case Degrees    = "degrees"
 	}
 	
-	init() {
+	private init() {
 
-		let path = NSBundle(forClass: SwiftTurf.self).pathForResource("bundle", ofType: "js")!
-		var js = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+		let path = Bundle(for: SwiftTurf.self).path(forResource: "bundle", ofType: "js")!
+		var js = try! String(contentsOfFile: path, encoding: String.Encoding.utf8)
 		
 		// Make browserify work
 		js = "var window = this; \(js)"
-		context.evaluateScript(js)
+		context?.evaluateScript(js)
 
-		context.exceptionHandler = { context, exception in
+		context?.exceptionHandler = { context, exception in
 			print(exception)
 		}
 	}
@@ -43,12 +43,12 @@ public class SwiftTurf {
 	/// - parameter units: .Meters, .Kilometers, .Feet, .Miles, or .Degrees
 	///
 	/// - returns: Polygon?
-	public static func buffer<G: GeoJSONConvertible>(feature: G, distance: Double, units: Units = .Meters) -> Polygon? {
+	open static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters) -> Polygon? {
 		
-		let bufferJs = sharedInstance.context.objectForKeyedSubscript("buffer")!
-		let args: [AnyObject] = [feature.geoJSONRepresentation(), distance, units.rawValue, 90]
+		let bufferJs = sharedInstance.context?.objectForKeyedSubscript("buffer")!
+		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, units.rawValue as AnyObject, 90 as AnyObject]
 		
-		if let bufferedGeoJSON = bufferJs.callWithArguments(args)?.toDictionary() {
+		if let bufferedGeoJSON = bufferJs?.call(withArguments: args)?.toDictionary() {
 			return Polygon(dictionary: bufferedGeoJSON)
 		} else {
 			return nil
@@ -60,12 +60,12 @@ public class SwiftTurf {
 	/// - parameter feature: input polygon
 	///
 	/// - returns: FeatureCollection?
-	public static func kinks(feature: Polygon) -> FeatureCollection? {
+	open static func kinks(_ feature: Polygon) -> FeatureCollection? {
 		
-		let kinksJs = sharedInstance.context.objectForKeyedSubscript("kinks")!
-		let args: [AnyObject] = [feature.geoJSONRepresentation()]
+		let kinksJs = sharedInstance.context?.objectForKeyedSubscript("kinks")!
+		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject]
 		
-		if let kinks = kinksJs.callWithArguments(args)?.toDictionary() {
+		if let kinks = kinksJs?.call(withArguments: args)?.toDictionary() {
 			return FeatureCollection(dictionary: kinks)
 		} else {
 			return nil
