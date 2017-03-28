@@ -45,28 +45,28 @@ class ViewController: UIViewController {
 		}
 
 		let bufferedArea = MKPolygon(coordinates: outerPolygonCoordinates, count: outerPolygonCoordinates.count, interiorPolygons: interiorPolygons)
-		mapView.addOverlay(bufferedArea)
+		mapView.add(bufferedArea)
 		
 		let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-		mapView.addOverlay(polyline)
+		mapView.add(polyline)
     }
 
 }
 
 extension ViewController: MKMapViewDelegate {
 	
-	func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
 		
 		if let polyline = overlay as? MKPolyline {
 			let renderer = MKPolylineRenderer(overlay: polyline)
-			renderer.strokeColor = .blueColor()
+			renderer.strokeColor = .blue
 			renderer.lineWidth = 2.0
 			return renderer
 		}
 
 		if let polygon = overlay as? MKPolygon {
 			let renderer = MKPolygonRenderer(overlay: polygon)
-			renderer.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.25)
+			renderer.fillColor = UIColor.green.withAlphaComponent(0.25)
 			return renderer
 		}
 
