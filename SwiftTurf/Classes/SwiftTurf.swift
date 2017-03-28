@@ -29,10 +29,10 @@ final public class SwiftTurf {
 		
 		// Make browserify work
 		js = "var window = this; \(js)"
-		context?.evaluateScript(js)
+		_ = context?.evaluateScript(js)
 
 		context?.exceptionHandler = { context, exception in
-			print(exception)
+			print(exception as Any)
 		}
 	}
 	
