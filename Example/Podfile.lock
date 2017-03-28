@@ -1,5 +1,5 @@
 PODS:
-  - SwiftTurf (1.0.0)
+  - SwiftTurf (0.2.1)
 
 DEPENDENCIES:
   - SwiftTurf (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SwiftTurf: eb81c87ed9e5bb862d215d1485a823bf452044c6
+  SwiftTurf: 8db31b3153063c1687eab90c4256cb85d7f9eada
 
 PODFILE CHECKSUM: bddb67e4832e0e7a723d7b202618c9a510207cda
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
