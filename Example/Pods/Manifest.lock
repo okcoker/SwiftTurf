@@ -1,0 +1,16 @@
+PODS:
+  - SwiftTurf (0.2.1)
+
+DEPENDENCIES:
+  - SwiftTurf (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftTurf:
+    :path: ../
+
+SPEC CHECKSUMS:
+  SwiftTurf: 8db31b3153063c1687eab90c4256cb85d7f9eada
+
+PODFILE CHECKSUM: 2128a35f093f24ff4296f9227c2813e607aa7661
+
+COCOAPODS: 1.3.1

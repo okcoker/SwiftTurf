@@ -1,0 +1,6 @@
+framework module SwiftTurf {
+  umbrella header "SwiftTurf-umbrella.h"
+
+  export *
+  module * { export * }
+}
