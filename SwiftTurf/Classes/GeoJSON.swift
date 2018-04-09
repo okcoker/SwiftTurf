@@ -46,10 +46,10 @@ extension Feature {
 
 open class Point: Feature {
 	
-	public typealias GeometryType = CLLocationCoordinate2D!
+	public typealias GeometryType = CLLocationCoordinate2D?
 	public typealias CoordinateRepresentationType = [Double]
 	
-	open var geometry: CLLocationCoordinate2D!
+	open var geometry: CLLocationCoordinate2D?
 	
 	public required init() {}
 	
@@ -59,16 +59,16 @@ open class Point: Feature {
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry.geoJSONRepresentation
+		return geometry!.geoJSONRepresentation
 	}
 }
 
 open class LineString: Feature {
 	
-	public typealias GeometryType = [CLLocationCoordinate2D]!
+	public typealias GeometryType = [CLLocationCoordinate2D]?
 	public typealias CoordinateRepresentationType = [[Double]]
 	
-	open var geometry: [CLLocationCoordinate2D]!
+	open var geometry: [CLLocationCoordinate2D]?
 
 	public required init() {}
 
@@ -79,29 +79,29 @@ open class LineString: Feature {
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry.map { $0.geoJSONRepresentation }
+		return geometry!.map { $0.geoJSONRepresentation }
 	}
 }
 
 open class Polygon: Feature {
 	
-	public typealias GeometryType = [[CLLocationCoordinate2D]]!
+	public typealias GeometryType = [[CLLocationCoordinate2D]]?
 	public typealias CoordinateRepresentationType = [[[Double]]]
 	
-	open var geometry: [[CLLocationCoordinate2D]]!
+	open var geometry: [[CLLocationCoordinate2D]]?
 
 	public required init() {}
 
 	public required init?(coordinates: CoordinateRepresentationType) {
-		guard let linearRings = coordinates.map({ $0.flatMap(CLLocationCoordinate2D.init) }) as GeometryType? else { return nil }
-		for linearRing in linearRings {
+		guard let linearRings = coordinates.map({ $0.compactMap(CLLocationCoordinate2D.init) }) as GeometryType? else { return nil }
+		for linearRing in linearRings! {
 			guard linearRing.first == linearRing.last else { return nil }
 		}
 		self.geometry = linearRings
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry.map { $0.map { $0.geoJSONRepresentation } }
+		return geometry!.map { $0.map { $0.geoJSONRepresentation } }
 	}
 }
 
@@ -123,7 +123,7 @@ open class Multi<FeatureType: Feature> {
 	public required init() {}
 	
 	public required init?(coordinates: CoordinateRepresentationType) {
-		let features = coordinates.flatMap { (coords: FeatureType.CoordinateRepresentationType) in
+		let features = coordinates.compactMap { (coords: FeatureType.CoordinateRepresentationType) in
 			FeatureType(coordinates: coords)
 		}
 		self.features = features
@@ -149,7 +149,7 @@ open class FeatureCollection: GeoJSONConvertible {
 		let geoJSONfeatures = dictionary["features"] as? [GeoJSONDictionary]
 
 		self.features = geoJSONfeatures?
-			.flatMap { feature in
+			.compactMap { feature in
 				let type = (feature["geometry"] as? [AnyHashable: Any])?["type"] as! String
 				switch type {
 				case "Point":       return Point(dictionary: feature)
@@ -190,6 +190,7 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	init?(coordinates: [Double]) {
 		guard coordinates.count == 2 else { return nil }
+		self.init()
 		longitude = coordinates[0]
 		latitude = coordinates[1]
 	}
