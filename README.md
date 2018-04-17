@@ -24,7 +24,7 @@ pod "SwiftTurf"
 ### Carthage
 
 ```
-github "AirMap/SwiftTurf" ~> 0.3
+github "AirMap/SwiftTurf" ~> 0.3.1
 ```
 
 ## Author
