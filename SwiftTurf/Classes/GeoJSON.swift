@@ -25,14 +25,7 @@ public protocol CoordinateConvertible {
 public protocol GeometryConvertible {
 	associatedtype GeometryType
 	var geometry: GeometryType { get set }
-	init()
-}
-
-extension GeometryConvertible {
-	public init(geometry: GeometryType) {
-		self.init()
-		self.geometry = geometry
-	}
+	init(geometry: GeometryType)
 }
 
 public protocol Feature: GeoJSONConvertible, CoordinateConvertible, GeometryConvertible {}
@@ -46,12 +39,14 @@ extension Feature {
 
 open class Point: Feature {
 	
-	public typealias GeometryType = CLLocationCoordinate2D?
+	public typealias GeometryType = CLLocationCoordinate2D
 	public typealias CoordinateRepresentationType = [Double]
 	
-	open var geometry: CLLocationCoordinate2D?
+	open var geometry: CLLocationCoordinate2D
 	
-	public required init() {}
+	public required init(geometry: CLLocationCoordinate2D) {
+		self.geometry = geometry
+	}
 	
 	public required init?(coordinates: CoordinateRepresentationType) {
 		guard let position = CLLocationCoordinate2D(coordinates: coordinates) else { return nil }
@@ -59,18 +54,20 @@ open class Point: Feature {
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry!.geoJSONRepresentation
+		return geometry.geoJSONRepresentation
 	}
 }
 
 open class LineString: Feature {
 	
-	public typealias GeometryType = [CLLocationCoordinate2D]?
+	public typealias GeometryType = [CLLocationCoordinate2D]
 	public typealias CoordinateRepresentationType = [[Double]]
 	
-	open var geometry: [CLLocationCoordinate2D]?
+	open var geometry: [CLLocationCoordinate2D]
 
-	public required init() {}
+	public required init(geometry: [CLLocationCoordinate2D]) {
+		self.geometry = geometry
+	}
 
 	public required init?(coordinates: CoordinateRepresentationType) {
 		guard let positions = coordinates.map(CLLocationCoordinate2D.init) as? [CLLocationCoordinate2D]
@@ -79,29 +76,31 @@ open class LineString: Feature {
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry!.map { $0.geoJSONRepresentation }
+		return geometry.map { $0.geoJSONRepresentation }
 	}
 }
 
 open class Polygon: Feature {
 	
-	public typealias GeometryType = [[CLLocationCoordinate2D]]?
+	public typealias GeometryType = [[CLLocationCoordinate2D]]
 	public typealias CoordinateRepresentationType = [[[Double]]]
 	
-	open var geometry: [[CLLocationCoordinate2D]]?
+	open var geometry: [[CLLocationCoordinate2D]]
 
-	public required init() {}
+	public required init(geometry: [[CLLocationCoordinate2D]]) {
+		self.geometry = geometry
+	}
 
 	public required init?(coordinates: CoordinateRepresentationType) {
 		guard let linearRings = coordinates.map({ $0.compactMap(CLLocationCoordinate2D.init) }) as GeometryType? else { return nil }
-		for linearRing in linearRings! {
+		for linearRing in linearRings {
 			guard linearRing.first == linearRing.last else { return nil }
 		}
 		self.geometry = linearRings
 	}
 	
 	open func coordinateRepresentation() -> CoordinateRepresentationType {
-		return geometry!.map { $0.map { $0.geoJSONRepresentation } }
+		return geometry.map { $0.map { $0.geoJSONRepresentation } }
 	}
 }
 
@@ -190,9 +189,7 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	init?(coordinates: [Double]) {
 		guard coordinates.count == 2 else { return nil }
-		self.init()
-		longitude = coordinates[0]
-		latitude = coordinates[1]
+		self.init(latitude: coordinates[1], longitude: coordinates[0])
 	}
 	
 	var geoJSONRepresentation: [Double] {
