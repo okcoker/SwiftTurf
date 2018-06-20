@@ -35,10 +35,10 @@ class ViewController: UIViewController {
 		let bufferedLineString: Polygon? = SwiftTurf.buffer(lineString, distance: 50, units: .Kilometers)
 
 		// The first polygon coordinates represent the outer polygon
-		let outerPolygonCoordinates = bufferedLineString!.geometry![0]
+		let outerPolygonCoordinates = bufferedLineString!.geometry[0]
 		// The subsequent polygon coordinates represent the interior polygons that are to
 		// be subtracted (cut out) from the outer polygon area.
-		let interiorPolygonsCoordinates = bufferedLineString!.geometry![1..<bufferedLineString!.geometry.count]
+		let interiorPolygonsCoordinates = bufferedLineString!.geometry[1..<bufferedLineString!.geometry.count]
 
 		let interiorPolygons = interiorPolygonsCoordinates.map { coordinates -> MKPolygon in
 			MKPolygon(coordinates: coordinates, count: coordinates.count)
