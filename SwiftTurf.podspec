@@ -1,7 +1,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftTurf'
-  s.version          = '0.3.1'
+  s.version          = '0.3.2'
+  s.swift_version    = '4.1'
   s.summary          = 'SwiftTurf is Swift wrapper of the TurfJS library. http://turfjs.org'
   s.description      = <<-DESC
 SwiftTurf is Swift wrapper of the TurfJS library. More information can be found at http://turfjs.org.
