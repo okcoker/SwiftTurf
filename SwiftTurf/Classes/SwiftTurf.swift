@@ -43,10 +43,10 @@ final public class SwiftTurf {
 	/// - parameter units: .Meters, .Kilometers, .Feet, .Miles, or .Degrees
 	///
 	/// - returns: Polygon?
-	open static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters) -> Polygon? {
+	public static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters) -> Polygon? {
 		
 		let bufferJs = sharedInstance.context?.objectForKeyedSubscript("buffer")!
-		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, units.rawValue as AnyObject, 90 as AnyObject]
+		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, ["units": units.rawValue as AnyObject, "steps": 90 as AnyObject] as AnyObject]
 		
 		if let bufferedGeoJSON = bufferJs?.call(withArguments: args)?.toDictionary() {
 			return Polygon(dictionary: bufferedGeoJSON)
@@ -60,7 +60,7 @@ final public class SwiftTurf {
 	/// - parameter feature: input polygon
 	///
 	/// - returns: FeatureCollection?
-	open static func kinks(_ feature: Polygon) -> FeatureCollection? {
+	public static func kinks(_ feature: Polygon) -> FeatureCollection? {
 		
 		let kinksJs = sharedInstance.context?.objectForKeyedSubscript("kinks")!
 		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject]
@@ -71,6 +71,26 @@ final public class SwiftTurf {
 			return nil
 		}
 	}
+	
+	
+	/// Takes two line strings or polygon GeoJSON and returns points of intersection
+	///
+	/// - parameter feature: line strings or polygon GeoJSON
+	///
+	/// - returns: FeatureCollection?
+	public static func lineIntersect(_ line1: LineString, _ line2: LineString) -> FeatureCollection? {
+		
+		let js = sharedInstance.context?.objectForKeyedSubscript("lineIntersect")!
+		let args: [AnyObject] = [line1.geoJSONRepresentation() as AnyObject, line2.geoJSONRepresentation() as AnyObject]
+
+		if let intersect = js?.call(withArguments: args)?.toDictionary() {
+		
+			return FeatureCollection(dictionary: intersect)
+		} else {
+			return nil
+		}
+	}
+	
 	
 //	public static func union(feature: FeatureCollection) -> Polygon? {
 //		
@@ -84,7 +104,7 @@ final public class SwiftTurf {
 //		guard polygons.count >= 2 else { return polygons.first }
 //		
 //		var unionedPolygon = polygons.first
-//		
+//
 //		for (index, polygon) in polygons.enumerate() {
 //			if index == 0 { continue }
 //			let polygonsToUnion = [unionedPolygon!.geoJSONRepresentation(), polygon.geoJSONRepresentation()]

@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 		mapView.centerCoordinate = CLLocationCoordinate2D(latitude: 36.731441091028245, longitude: -118.29915093141854)
 		mapView.region.span = MKCoordinateSpan(latitudeDelta: 13.5, longitudeDelta: 9.8)
 
-		var coordinates = [
+		let star = [
 			CLLocationCoordinate2D(latitude: 33.43144133557529, longitude: -121.11328125000000),
 			CLLocationCoordinate2D(latitude: 40.27952566881291, longitude: -117.90527343750001),
 			CLLocationCoordinate2D(latitude: 33.94335994657882, longitude: -115.57617187499999),
@@ -31,9 +31,9 @@ class ViewController: UIViewController {
 			CLLocationCoordinate2D(latitude: 33.43144133557529, longitude: -121.11328124999999)
 		]
 		
-		let lineString: LineString = LineString(geometry: coordinates)
+		let lineString: LineString = LineString(geometry: star)
 		let bufferedLineString: Polygon? = SwiftTurf.buffer(lineString, distance: 50, units: .Kilometers)
-
+		
 		// The first polygon coordinates represent the outer polygon
 		let outerPolygonCoordinates = bufferedLineString!.geometry[0]
 		// The subsequent polygon coordinates represent the interior polygons that are to
@@ -43,13 +43,21 @@ class ViewController: UIViewController {
 		let interiorPolygons = interiorPolygonsCoordinates.map { coordinates -> MKPolygon in
 			MKPolygon(coordinates: coordinates, count: coordinates.count)
 		}
-
+		
+		let lineString1 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 20), CLLocationCoordinate2D(latitude: 40, longitude: 40)])
+		let lineString2 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 40), CLLocationCoordinate2D(latitude: 40, longitude: 20)])
+        let intersect = SwiftTurf.lineIntersect(lineString1, lineString2)
+		let point = Point(dictionary: intersect!.features.first!.geoJSONRepresentation())
+		// Prints true if the intersecting coordinate is correct
+		let intersectResult = point?.geometry.latitude == 30.0 && point?.geometry.latitude == 30.0
+		print("lineIntersect did return the correct result: \(intersectResult)")
+		
 		let bufferedArea = MKPolygon(coordinates: outerPolygonCoordinates, count: outerPolygonCoordinates.count, interiorPolygons: interiorPolygons)
 		mapView.add(bufferedArea)
-		
-		let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+
+		let polyline = MKPolyline(coordinates: star, count: star.count)
 		mapView.add(polyline)
-    }
+	}
 
 }
 
