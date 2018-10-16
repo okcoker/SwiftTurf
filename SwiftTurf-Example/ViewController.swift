@@ -44,19 +44,28 @@ class ViewController: UIViewController {
 			MKPolygon(coordinates: coordinates, count: coordinates.count)
 		}
 		
+		let bufferedArea = MKPolygon(coordinates: outerPolygonCoordinates, count: outerPolygonCoordinates.count, interiorPolygons: interiorPolygons)
+		mapView.add(bufferedArea)
+
+		let polyline = MKPolyline(coordinates: star, count: star.count)
+		mapView.add(polyline)
+		
 		let lineString1 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 20), CLLocationCoordinate2D(latitude: 40, longitude: 40)])
 		let lineString2 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 40), CLLocationCoordinate2D(latitude: 40, longitude: 20)])
         let intersect = SwiftTurf.lineIntersect(lineString1, lineString2)
 		let point = Point(dictionary: intersect!.features.first!.geoJSONRepresentation())
 		// Prints true if the intersecting coordinate is correct
 		let intersectResult = point?.geometry.latitude == 30.0 && point?.geometry.latitude == 30.0
-		print("lineIntersect did return the correct result: \(intersectResult)")
+		print("lineIntersect test result: \(intersectResult)")
 		
-		let bufferedArea = MKPolygon(coordinates: outerPolygonCoordinates, count: outerPolygonCoordinates.count, interiorPolygons: interiorPolygons)
-		mapView.add(bufferedArea)
+		let origin = Point(geometry: CLLocationCoordinate2D(latitude: 36.731441091028245, longitude: -118.29915093141854))
+		let distance: Double = 200
+		let bearing: Double = 90
+        let destination = SwiftTurf.destination(point: origin, distanceMeters: distance, bearing: bearing)
 
-		let polyline = MKPolyline(coordinates: star, count: star.count)
-		mapView.add(polyline)
+		let orginLocation = CLLocation(latitude: origin.geometry.latitude, longitude: origin.geometry.longitude)
+		let destinationLocation = CLLocation(latitude: destination?.geometry.latitude ?? 0, longitude: destination?.geometry.longitude ?? 0)
+		print("destination test result: \(orginLocation.distance(from: destinationLocation)) ~= \(distance)")
 	}
 
 }

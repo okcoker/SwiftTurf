@@ -6,8 +6,9 @@
   "author": "Adolfo Martinelli",
   "license": "MIT",
   "dependencies": {
-    "@turf/line-intersect": "5.1.5",
     "@turf/buffer": "5.1.5",
-    "@turf/kinks": "5.1.5"
+    "@turf/destination": "5.1.5",
+    "@turf/kinks": "5.1.5",
+    "@turf/line-intersect": "5.1.5"
   }
 }

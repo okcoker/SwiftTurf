@@ -72,7 +72,6 @@ final public class SwiftTurf {
 		}
 	}
 	
-	
 	/// Takes two line strings or polygon GeoJSON and returns points of intersection
 	///
 	/// - parameter feature: line strings or polygon GeoJSON
@@ -82,15 +81,30 @@ final public class SwiftTurf {
 		
 		let js = sharedInstance.context?.objectForKeyedSubscript("lineIntersect")!
 		let args: [AnyObject] = [line1.geoJSONRepresentation() as AnyObject, line2.geoJSONRepresentation() as AnyObject]
-
-		if let intersect = js?.call(withArguments: args)?.toDictionary() {
 		
+		if let intersect = js?.call(withArguments: args)?.toDictionary() {
 			return FeatureCollection(dictionary: intersect)
 		} else {
 			return nil
 		}
 	}
 	
+	/// Takes two line strings or polygon GeoJSON and returns points of intersection
+	///
+	/// - parameter feature: line strings or polygon GeoJSON
+	///
+	/// - returns: FeatureCollection?
+	public static func destination(point: Point, distanceMeters: Double, bearing: Double, units: Units = .Meters) -> Point? {
+		
+		let js = sharedInstance.context?.objectForKeyedSubscript("destination")!
+		let args: [AnyObject] = [point.geoJSONRepresentation()  as AnyObject, distanceMeters as AnyObject, bearing as AnyObject, ["units": units.rawValue as AnyObject] as AnyObject]
+		
+		if let destinationPoint = js?.call(withArguments: args)?.toDictionary() {
+			return Point(dictionary: destinationPoint)
+		} else {
+			return nil
+		}
+	}
 	
 //	public static func union(feature: FeatureCollection) -> Polygon? {
 //		
