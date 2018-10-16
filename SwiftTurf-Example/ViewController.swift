@@ -53,10 +53,10 @@ class ViewController: UIViewController {
 		let lineString1 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 20), CLLocationCoordinate2D(latitude: 40, longitude: 40)])
 		let lineString2 = LineString(geometry: [CLLocationCoordinate2D(latitude: 20, longitude: 40), CLLocationCoordinate2D(latitude: 40, longitude: 20)])
         let intersect = SwiftTurf.lineIntersect(lineString1, lineString2)
-		let point = Point(dictionary: intersect!.features.first!.geoJSONRepresentation())
+		let intersectResultPoint = Point(dictionary: intersect!.features.first!.geoJSONRepresentation())
 		// Prints true if the intersecting coordinate is correct
-		let intersectResult = point?.geometry.latitude == 30.0 && point?.geometry.latitude == 30.0
-		print("lineIntersect test result: \(intersectResult)")
+		let intersectResult = intersectResultPoint?.geometry.latitude == 30.0 && intersectResultPoint?.geometry.latitude == 30.0
+		print("lineIntersect test result (should be true): \(intersectResult)")
 		
 		let origin = Point(geometry: CLLocationCoordinate2D(latitude: 36.731441091028245, longitude: -118.29915093141854))
 		let distance: Double = 200
@@ -66,6 +66,20 @@ class ViewController: UIViewController {
 		let orginLocation = CLLocation(latitude: origin.geometry.latitude, longitude: origin.geometry.longitude)
 		let destinationLocation = CLLocation(latitude: destination?.geometry.latitude ?? 0, longitude: destination?.geometry.longitude ?? 0)
 		print("destination test result: \(orginLocation.distance(from: destinationLocation)) ~= \(distance)")
+		
+		let polygonCoordinates = [
+			CLLocationCoordinate2D(latitude: 34.05152161016494, longitude: -118.46583366394043),
+			CLLocationCoordinate2D(latitude: 34.035590649919314, longitude: -118.47956657409668),
+			CLLocationCoordinate2D(latitude: 34.02705497597962, longitude: -118.46240043640137),
+			CLLocationCoordinate2D(latitude: 34.042062963450476, longitude: -118.44849586486818),
+			CLLocationCoordinate2D(latitude: 34.05152161016494, longitude: -118.46583366394043)
+		]
+		
+		let polygon = Polygon(geometry: [polygonCoordinates])
+		let pointInsidePolygon = Point(geometry: CLLocationCoordinate2D(latitude: 34.03815118464513, longitude: -118.46488952636717))
+		
+		let containsResult = SwiftTurf.contains(polygon: polygon, point: pointInsidePolygon)
+		print("contains test result (should be true): \(containsResult)")
 	}
 
 }

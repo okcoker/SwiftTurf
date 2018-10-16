@@ -89,11 +89,11 @@ final public class SwiftTurf {
 		}
 	}
 	
-	/// Takes two line strings or polygon GeoJSON and returns points of intersection
+	/// Takes a point and calulates the location of a destination point given a distance in degrees, radians, miles, or kilometers and bearing in degrees
 	///
-	/// - parameter feature: line strings or polygon GeoJSON
+	/// - parameter point, distance, bearing, and units
 	///
-	/// - returns: FeatureCollection?
+	/// - returns: Point?
 	public static func destination(point: Point, distanceMeters: Double, bearing: Double, units: Units = .Meters) -> Point? {
 		
 		let js = sharedInstance.context?.objectForKeyedSubscript("destination")!
@@ -106,6 +106,23 @@ final public class SwiftTurf {
 		}
 	}
 	
+	/// Takes two geometries and returns true if the first geometry entiely surrounds the second geometry
+	///
+	/// - parameter point, distance, bearing, and units
+	///
+	/// - returns: Boolean
+	public static func contains(polygon: Polygon, point: Point?) -> Bool {
+		guard let point = point else { return false }
+		let js = sharedInstance.context?.objectForKeyedSubscript("contains")!
+		let args: [AnyObject] = [polygon.geoJSONRepresentation()  as AnyObject, point.geoJSONRepresentation()  as AnyObject]
+		
+		if let doesContain = js?.call(withArguments: args)?.toBool() {
+			return doesContain
+		} else {
+			return false
+		}
+	}
+
 //	public static func union(feature: FeatureCollection) -> Polygon? {
 //		
 //		let unionFunction = sharedInstance.conttext.objectForKeyedSubscript("union")!
