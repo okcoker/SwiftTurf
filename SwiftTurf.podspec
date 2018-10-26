@@ -13,6 +13,7 @@ SwiftTurf is Swift wrapper of the TurfJS library. More information can be found 
   s.source           = { :git => 'https://github.com/AirMap/SwiftTurf.git', :tag => s.version.to_s }
   
   s.ios.deployment_target = '8.0'
+  s.tvos.deployment_target = '12.0'
   s.osx.deployment_target = '10.10'
 
   s.source_files = 'SwiftTurf/Classes/**/*'
