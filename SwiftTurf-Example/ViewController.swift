@@ -61,7 +61,7 @@ class ViewController: UIViewController {
 		let origin = Point(geometry: CLLocationCoordinate2D(latitude: 36.731441091028245, longitude: -118.29915093141854))
 		let distance: Double = 200
 		let bearing: Double = 90
-        let destination = SwiftTurf.destination(point: origin, distanceMeters: distance, bearing: bearing)
+        let destination = SwiftTurf.destination(point: origin, distance: distance, bearing: bearing)
 
 		let orginLocation = CLLocation(latitude: origin.geometry.latitude, longitude: origin.geometry.longitude)
 		let destinationLocation = CLLocation(latitude: destination?.geometry.latitude ?? 0, longitude: destination?.geometry.longitude ?? 0)

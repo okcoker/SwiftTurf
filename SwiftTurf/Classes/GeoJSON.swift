@@ -23,7 +23,7 @@ public protocol CoordinateConvertible {
 }
 
 public protocol GeometryConvertible {
-	associatedtype GeometryType
+	associatedtype GeometryType 
 	var geometry: GeometryType { get set }
 	init(geometry: GeometryType)
 }

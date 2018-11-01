@@ -94,10 +94,10 @@ final public class SwiftTurf {
 	/// - parameter point, distance, bearing, and units
 	///
 	/// - returns: Point?
-	public static func destination(point: Point, distanceMeters: Double, bearing: Double, units: Units = .Meters) -> Point? {
+	public static func destination(point: Point, distance: Double, bearing: Double, units: Units = .Meters) -> Point? {
 		
 		let js = sharedInstance.context?.objectForKeyedSubscript("destination")!
-		let args: [AnyObject] = [point.geoJSONRepresentation()  as AnyObject, distanceMeters as AnyObject, bearing as AnyObject, ["units": units.rawValue as AnyObject] as AnyObject]
+		let args: [AnyObject] = [point.geoJSONRepresentation()  as AnyObject, distance as AnyObject, bearing as AnyObject, ["units": units.rawValue as AnyObject] as AnyObject]
 		
 		if let destinationPoint = js?.call(withArguments: args)?.toDictionary() {
 			return Point(dictionary: destinationPoint)
@@ -112,7 +112,9 @@ final public class SwiftTurf {
 	///
 	/// - returns: Boolean
 	public static func contains(polygon: Polygon, point: Point?) -> Bool {
+		
 		guard let point = point else { return false }
+		
 		let js = sharedInstance.context?.objectForKeyedSubscript("contains")!
 		let args: [AnyObject] = [polygon.geoJSONRepresentation()  as AnyObject, point.geoJSONRepresentation()  as AnyObject]
 		
