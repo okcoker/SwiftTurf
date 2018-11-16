@@ -41,12 +41,13 @@ final public class SwiftTurf {
 	/// - parameter feature:  input to be buffered
 	/// - parameter distance: distance to draw the buffer
 	/// - parameter units: .Meters, .Kilometers, .Feet, .Miles, or .Degrees
+	/// - parameter steps: controls the number of vertices for drawing curves around points
 	///
 	/// - returns: Polygon?
-	public static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters) -> Polygon? {
+	public static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters, steps: Int = 45) -> Polygon? {
 		
 		let bufferJs = sharedInstance.context?.objectForKeyedSubscript("buffer")!
-		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, ["units": units.rawValue as AnyObject, "steps": 90 as AnyObject] as AnyObject]
+		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, ["units": units.rawValue as AnyObject, "steps": steps as AnyObject] as AnyObject]
 		
 		if let bufferedGeoJSON = bufferJs?.call(withArguments: args)?.toDictionary() {
 			return Polygon(dictionary: bufferedGeoJSON)
