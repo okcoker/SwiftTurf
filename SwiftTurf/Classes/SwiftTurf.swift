@@ -10,9 +10,9 @@ import JavaScriptCore
 
 final public class SwiftTurf {
 
-	private static let sharedInstance = SwiftTurf()
+	public static let sharedInstance = SwiftTurf()
 	
-	private let context = JSContext()
+	public let context = JSContext()
 	
 	public enum Units: String {
 		case Meters     = "meters"
@@ -24,7 +24,7 @@ final public class SwiftTurf {
 	
 	private init() {
 
-		let path = Bundle(for: SwiftTurf.self).path(forResource: "bundle", ofType: "js")!
+		let path = Bundle(for: SwiftTurf.self).path(forResource: "turf-6.3.0-min", ofType: "js")!
 		var js = try! String(contentsOfFile: path, encoding: String.Encoding.utf8)
 		
 		// Make browserify work
@@ -46,7 +46,7 @@ final public class SwiftTurf {
 	/// - returns: Polygon?
 	public static func buffer<G: GeoJSONConvertible>(_ feature: G, distance: Double, units: Units = .Meters, steps: Int = 45) -> Polygon? {
 		
-		let bufferJs = sharedInstance.context?.objectForKeyedSubscript("buffer")!
+		let bufferJs = sharedInstance.context?.objectForKeyedSubscript("turf")?.objectForKeyedSubscript("buffer")!
 		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject, distance as AnyObject, ["units": units.rawValue as AnyObject, "steps": steps as AnyObject] as AnyObject]
 		
 		if let bufferedGeoJSON = bufferJs?.call(withArguments: args)?.toDictionary() {
@@ -63,7 +63,7 @@ final public class SwiftTurf {
 	/// - returns: FeatureCollection?
 	public static func kinks(_ feature: Polygon) -> FeatureCollection? {
 		
-		let kinksJs = sharedInstance.context?.objectForKeyedSubscript("kinks")!
+		let kinksJs = sharedInstance.context?.objectForKeyedSubscript("turf")?.objectForKeyedSubscript("kinks")!
 		let args: [AnyObject] = [feature.geoJSONRepresentation() as AnyObject]
 		
 		if let kinks = kinksJs?.call(withArguments: args)?.toDictionary() {
@@ -80,7 +80,7 @@ final public class SwiftTurf {
 	/// - returns: FeatureCollection?
 	public static func lineIntersect(_ line1: LineString, _ line2: LineString) -> FeatureCollection? {
 		
-		let js = sharedInstance.context?.objectForKeyedSubscript("lineIntersect")!
+		let js = sharedInstance.context?.objectForKeyedSubscript("turf")?.objectForKeyedSubscript("lineIntersect")!
 		let args: [AnyObject] = [line1.geoJSONRepresentation() as AnyObject, line2.geoJSONRepresentation() as AnyObject]
 		
 		if let intersect = js?.call(withArguments: args)?.toDictionary() {
@@ -97,7 +97,7 @@ final public class SwiftTurf {
 	/// - returns: Point?
 	public static func destination(point: Point, distance: Double, bearing: Double, units: Units = .Meters) -> Point? {
 		
-		let js = sharedInstance.context?.objectForKeyedSubscript("destination")!
+		let js = sharedInstance.context?.objectForKeyedSubscript("turf")?.objectForKeyedSubscript("destination")!
 		let args: [AnyObject] = [point.geoJSONRepresentation()  as AnyObject, distance as AnyObject, bearing as AnyObject, ["units": units.rawValue as AnyObject] as AnyObject]
 		
 		if let destinationPoint = js?.call(withArguments: args)?.toDictionary() {
@@ -116,7 +116,7 @@ final public class SwiftTurf {
 		
 		guard let point = point else { return false }
 		
-		let js = sharedInstance.context?.objectForKeyedSubscript("contains")!
+		let js = sharedInstance.context?.objectForKeyedSubscript("turf")?.objectForKeyedSubscript("contains")!
 		let args: [AnyObject] = [polygon.geoJSONRepresentation()  as AnyObject, point.geoJSONRepresentation()  as AnyObject]
 		
 		if let doesContain = js?.call(withArguments: args)?.toBool() {

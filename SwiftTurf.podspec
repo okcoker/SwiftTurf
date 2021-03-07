@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftTurf'
-  s.version          = '0.3.3'
+  s.version          = '0.3.3-custom'
   s.summary          = 'SwiftTurf is Swift wrapper of the TurfJS library. http://turfjs.org'
   s.description      = <<-DESC
 SwiftTurf is Swift wrapper of the TurfJS library. More information can be found at http://turfjs.org.
@@ -17,6 +17,6 @@ SwiftTurf is Swift wrapper of the TurfJS library. More information can be found 
   s.osx.deployment_target = '10.10'
 
   s.source_files = 'SwiftTurf/Classes/**/*'
-  s.resources = 'SwiftTurf/Assets/js/dist/bundle.js'
+  s.resources = 'SwiftTurf/Assets/js/turf-6.3.0-min.js'
 
 end
