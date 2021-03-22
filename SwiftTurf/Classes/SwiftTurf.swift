@@ -24,7 +24,7 @@ final public class SwiftTurf {
 	
 	private init() {
 
-		let path = Bundle(for: SwiftTurf.self).path(forResource: "turf-6.3.0-min", ofType: "js")!
+		let path = Bundle(for: SwiftTurf.self).path(forResource: "turf-6.3.0-fork", ofType: "js")!
 		var js = try! String(contentsOfFile: path, encoding: String.Encoding.utf8)
 		
 		// Make browserify work

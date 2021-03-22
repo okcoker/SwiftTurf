@@ -17,6 +17,6 @@ SwiftTurf is Swift wrapper of the TurfJS library. More information can be found 
   s.osx.deployment_target = '10.10'
 
   s.source_files = 'SwiftTurf/Classes/**/*'
-  s.resources = 'SwiftTurf/Assets/js/turf-6.3.0-min.js'
+  s.resources = 'SwiftTurf/Assets/js/turf-6.3.0-fork.js'
 
 end
