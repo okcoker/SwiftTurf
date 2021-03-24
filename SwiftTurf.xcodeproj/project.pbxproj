@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		145E634C2608A29B007B5E72 /* turf-6.3.0-fork.js in Resources */ = {isa = PBXBuildFile; fileRef = 145E634B2608A29B007B5E72 /* turf-6.3.0-fork.js */; };
+		145E637C2609D009007B5E72 /* SwiftTurfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145E637B2609D009007B5E72 /* SwiftTurfTests.swift */; };
+		145E6385260B050E007B5E72 /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91532F3520041D7400A45481 /* GeoJSON.swift */; };
+		145E6386260B050E007B5E72 /* SwiftTurf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91532F3620041D7400A45481 /* SwiftTurf.swift */; };
 		91532F3820041D7400A45481 /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91532F3520041D7400A45481 /* GeoJSON.swift */; };
 		91532F3920041D7400A45481 /* SwiftTurf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91532F3620041D7400A45481 /* SwiftTurf.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		145E634B2608A29B007B5E72 /* turf-6.3.0-fork.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "turf-6.3.0-fork.js"; path = "SwiftTurf/Assets/js/turf-6.3.0-fork.js"; sourceTree = "<group>"; };
+		145E63792609D009007B5E72 /* SwiftTurfTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftTurfTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		145E637B2609D009007B5E72 /* SwiftTurfTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTurfTests.swift; sourceTree = "<group>"; };
+		145E637D2609D009007B5E72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		913C3B1A20042C9000BCF16F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91532F2320041CC500A45481 /* SwiftTurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftTurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91532F3520041D7400A45481 /* GeoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
@@ -22,6 +28,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		145E63762609D009007B5E72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		91532F1F20041CC500A45481 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -32,6 +45,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		145E637A2609D009007B5E72 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				145E637B2609D009007B5E72 /* SwiftTurfTests.swift */,
+				145E637D2609D009007B5E72 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		145E638B260B05F7007B5E72 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		91532F1920041CC500A45481 = {
 			isa = PBXGroup;
 			children = (
@@ -39,7 +68,9 @@
 				91532F3E20041E2500A45481 /* SwiftTurf.podspec */,
 				91532F3320041D7400A45481 /* Classes */,
 				91532F3B20041D8300A45481 /* Resources */,
+				145E637A2609D009007B5E72 /* Tests */,
 				91532F2420041CC500A45481 /* Products */,
+				145E638B260B05F7007B5E72 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				91532F2320041CC500A45481 /* SwiftTurf.framework */,
+				145E63792609D009007B5E72 /* SwiftTurfTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +114,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		145E63782609D009007B5E72 /* SwiftTurfTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 145E637E2609D009007B5E72 /* Build configuration list for PBXNativeTarget "SwiftTurfTests" */;
+			buildPhases = (
+				145E63752609D009007B5E72 /* Sources */,
+				145E63762609D009007B5E72 /* Frameworks */,
+				145E63772609D009007B5E72 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftTurfTests;
+			productName = SwiftTurfTests;
+			productReference = 145E63792609D009007B5E72 /* SwiftTurfTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		91532F2220041CC500A45481 /* SwiftTurf */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 91532F2B20041CC500A45481 /* Build configuration list for PBXNativeTarget "SwiftTurf" */;
@@ -106,10 +155,14 @@
 		91532F1A20041CC500A45481 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "AirMap, Inc.";
 				TargetAttributes = {
+					145E63782609D009007B5E72 = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+					};
 					91532F2220041CC500A45481 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
@@ -129,11 +182,19 @@
 			projectRoot = "";
 			targets = (
 				91532F2220041CC500A45481 /* SwiftTurf */,
+				145E63782609D009007B5E72 /* SwiftTurfTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		145E63772609D009007B5E72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		91532F2120041CC500A45481 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -145,6 +206,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		145E63752609D009007B5E72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				145E6385260B050E007B5E72 /* GeoJSON.swift in Sources */,
+				145E6386260B050E007B5E72 /* SwiftTurf.swift in Sources */,
+				145E637C2609D009007B5E72 /* SwiftTurfTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		91532F1E20041CC500A45481 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -157,6 +228,45 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		145E637F2609D009007B5E72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3LYNTP9K2B;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okcoker.SwiftTurfTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		145E63802609D009007B5E72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3LYNTP9K2B;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okcoker.SwiftTurfTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		91532F2920041CC500A45481 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -327,6 +437,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		145E637E2609D009007B5E72 /* Build configuration list for PBXNativeTarget "SwiftTurfTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				145E637F2609D009007B5E72 /* Debug */,
+				145E63802609D009007B5E72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		91532F1D20041CC500A45481 /* Build configuration list for PBXProject "SwiftTurf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
